@@ -37,3 +37,8 @@
       :title   (last (select html [:h1.largetext2]))
       :date    (apply str (select html [:span.largetext]))
       :content (apply str (select html [:div#desc]))})))
+
+(defn analog_game_event?
+  [^Event event]
+  (let [s (str (:title event) (:content event))]
+    (some #(.contains s %) check_test)))
