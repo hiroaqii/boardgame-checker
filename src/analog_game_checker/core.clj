@@ -4,7 +4,7 @@
             [clojure.java.io :as io]
             [clojure.string :as str]))
 
-(def twippa_url "http://twipla.jp/")
+(def twippa_url "http://twipla.jp")
 
 (def check_text
   ["ボードゲーム"
@@ -18,7 +18,7 @@
 
 (s/defrecord Event
     [url     :- s/Str
-     day     :- s/Str
+     date    :- s/Str
      title   :- s/Str
      content :- s/Str])
 
@@ -31,9 +31,9 @@
 
 (defn scrape
   [url]
-  (let [ret (html/html-resource (io/reader url))]
+  (let [html (html/html-resource (io/reader url))]
     (map->Event
      {:url     url
-      :title   (last (select ret [:h1.largetext2]))
-      :day     (apply str (select ret [:span.largetext]))
-      :content (apply str (select ret [:div#desc]))})))
+      :title   (last (select html [:h1.largetext2]))
+      :date     (apply str (select html [:span.largetext]))
+      :content (apply str (select html [:div#desc]))})))
