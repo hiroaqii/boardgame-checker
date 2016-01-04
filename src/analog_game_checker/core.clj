@@ -21,3 +21,19 @@
      day     :- s/Str
      title   :- s/Str
      content :- s/Str])
+
+(defn- select
+  [html selecter]
+  (->> (html/select html selecter)
+       first
+       :content
+       (html/texts)))
+
+(defn scrape
+  [url]
+  (let [ret (html/html-resource (io/reader url))]
+    (map->Event
+     {:url     url
+      :title   (last (select ret [:h1.largetext2]))
+      :day     (apply str (select ret [:span.largetext]))
+      :content (apply str (select ret [:div#desc]))})))
