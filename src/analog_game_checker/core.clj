@@ -35,5 +35,5 @@
     (map->Event
      {:url     url
       :title   (last (select html [:h1.largetext2]))
-      :date     (apply str (select html [:span.largetext]))
+      :date    (apply str (select html [:span.largetext]))
       :content (apply str (select html [:div#desc]))})))
