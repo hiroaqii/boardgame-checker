@@ -41,4 +41,4 @@
 (defn analog_game_event?
   [^Event event]
   (let [s (str (:title event) (:content event))]
-    (some #(.contains s %) check_test)))
+    (some #(.contains s %) check_text)))
