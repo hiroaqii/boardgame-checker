@@ -42,3 +42,15 @@
   [^Event event]
   (let [s (str (:title event) (:content event))]
     (some #(.contains s %) check_text)))
+
+(defn crawl
+  [event_id]
+  (try
+    (let [event (scrape (str twippa_url "/events/" event_id))
+          url (:url event)
+          title (:title event)]
+      (if (analog_game_event? event)
+        (println "[ok]" url title)
+        (println "[skip]" url title)))
+    (catch Exception e
+      (println "[error]" e))))
