@@ -6,7 +6,7 @@
 
 (def twippa_url "http://twipla.jp")
 
-(def check_text
+(def check_wards
   ["ボードゲーム"
    "ボドゲ"
    "アナログゲーム"
@@ -41,7 +41,7 @@
 (defn analog_game_event?
   [^Event event]
   (let [s (str (:title event) (:content event))]
-    (some #(.contains s %) check_text)))
+    (some #(.contains s %) check_wards)))
 
 (defn crawl
   [event_id]
