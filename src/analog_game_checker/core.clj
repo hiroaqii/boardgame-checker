@@ -53,4 +53,14 @@
         (println "[ok]" url title)
         (println "[skip]" url title)))
     (catch Exception e
-      (println "[error]" e))))
+      (println "[error]" event_id))))
+
+(defn latest_event_id []
+  (let [ret (html/html-resource (io/reader twippa_url))]
+    (-> ret
+        (html/select #{[:ol.links :li html/first-child]})
+        first
+        (get-in [:attrs :href])
+        (str/split #"/")
+        last
+        Integer/parseInt)))
