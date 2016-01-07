@@ -64,3 +64,10 @@
         (str/split #"/")
         last
         Integer/parseInt)))
+
+(defn last_check_event_id [s]
+  (println s)
+  (if (.exists (io/file s))
+    (with-open [f (io/reader s)]
+      (Integer/parseInt (first (line-seq f))))
+    (- (latest_event_id) 100)))
