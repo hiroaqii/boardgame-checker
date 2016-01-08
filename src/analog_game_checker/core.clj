@@ -71,3 +71,21 @@
     (with-open [f (io/reader s)]
       (Integer/parseInt (first (line-seq f))))
     (- (latest_event_id) 100)))
+
+(defn- finish
+  [event_id]
+  (with-open [f (io/writer "last_check_id.txt")]
+    (.write f (str event_id))))
+
+(defn -main
+  [& args]
+  (let [start_id (last_check_event_id "last_check_id.txt")
+        end_id (inc (latest_event_id))]
+    (println "start:" start_id " end:" end_id)
+    (doseq [event_id (range start_id end_id)]
+      (crawl event_id)
+      (Thread/sleep 5000))
+    (finish end_id)
+    (println "finish")))
+
+(-main)
