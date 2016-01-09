@@ -1,6 +1,7 @@
 (ns analog-game-checker.core
   (:require [net.cgrand.enlive-html :as html]
             [schema.core :as s]
+            [taoensso.timbre :as log]
             [clojure.java.io :as io]
             [clojure.string :as str]))
 
@@ -50,10 +51,10 @@
           url (:url event)
           title (:title event)]
       (if (analog_game_event? event)
-        (println "[ok]" url title)
-        (println "[skip]" url title)))
+        (log/info "[ok]" url title)
+        (log/info "[skip]" url title)))
     (catch Exception e
-      (println "[error]" event_id))))
+      (log/info "[error]" event_id))))
 
 (defn latest_event_id []
   (let [ret (html/html-resource (io/reader twippa_url))]
@@ -81,11 +82,11 @@
   [& args]
   (let [start_id (last_check_event_id "last_check_id.txt")
         end_id (inc (latest_event_id))]
-    (println "start:" start_id " end:" end_id)
+    (log/info "start_id:"start_id " end_id:"end_id)
     (doseq [event_id (range start_id end_id)]
       (crawl event_id)
       (Thread/sleep 5000))
     (finish end_id)
-    (println "finish")))
+    (log/info"finish")))
 
 (-main)
