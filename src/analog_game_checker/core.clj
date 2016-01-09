@@ -2,8 +2,13 @@
   (:require [net.cgrand.enlive-html :as html]
             [schema.core :as s]
             [taoensso.timbre :as log]
+            [taoensso.timbre.appenders.core :as appenders]
             [clojure.java.io :as io]
             [clojure.string :as str]))
+
+(log/merge-config!
+ {:appenders
+  {:spit (appenders/spit-appender {:fname "logs/info.log"})}})
 
 (def twippa_url "http://twipla.jp")
 
@@ -71,16 +76,16 @@
   (if (.exists (io/file s))
     (with-open [f (io/reader s)]
       (Integer/parseInt (first (line-seq f))))
-    (- (latest_event_id) 100)))
+    (- (latest_event_id) 10)))
 
 (defn- finish
   [event_id]
-  (with-open [f (io/writer "last_check_id.txt")]
+  (with-open [f (io/writer "logs/last_check_id.txt")]
     (.write f (str event_id))))
 
 (defn -main
   [& args]
-  (let [start_id (last_check_event_id "last_check_id.txt")
+  (let [start_id (last_check_event_id "logs/last_check_id.txt")
         end_id (inc (latest_event_id))]
     (log/info "start_id:"start_id " end_id:"end_id)
     (doseq [event_id (range start_id end_id)]
