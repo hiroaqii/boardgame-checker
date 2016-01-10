@@ -5,7 +5,8 @@
             [taoensso.timbre.appenders.core :as appenders]
             [clojure.java.io :as io]
             [clojure.string :as str])
-  (:import [twitter4j TwitterFactory]))
+  (:import [twitter4j TwitterFactory])
+  (:gen-class))
 
 (log/merge-config!
  {:appenders
@@ -82,7 +83,7 @@
   (if (.exists (io/file s))
     (with-open [f (io/reader s)]
       (Integer/parseInt (first (line-seq f))))
-    (- (latest_event_id) 100)))
+    (- (latest_event_id) 10)))
 
 (defn- save_last_check_id
   [event_id]
@@ -99,5 +100,3 @@
       (Thread/sleep 5000))
     (save_last_check_id end_id)
     (log/info"finish")))
-
-(-main)

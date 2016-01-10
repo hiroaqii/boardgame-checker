@@ -7,4 +7,6 @@
                  [com.taoensso/timbre "4.2.0"]
                  [prismatic/schema "1.0.4"]
                  [org.twitter4j/twitter4j-core "4.0.4"]
-                 [enlive "1.1.6"]])
+                 [enlive "1.1.6"]]
+  :profiles {:uberjar {:aot :all}}
+  :main boardgame-checker.core)
