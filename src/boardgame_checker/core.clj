@@ -1,4 +1,4 @@
-(ns analog-game-checker.core
+(ns boardgame-checker.core
   (:require [net.cgrand.enlive-html :as html]
             [schema.core :as s]
             [taoensso.timbre :as log]
@@ -82,7 +82,7 @@
   (if (.exists (io/file s))
     (with-open [f (io/reader s)]
       (Integer/parseInt (first (line-seq f))))
-    (- (latest_event_id) 10)))
+    (- (latest_event_id) 100)))
 
 (defn- save_last_check_id
   [event_id]

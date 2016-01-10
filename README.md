@@ -1,4 +1,4 @@
-# analog-game-checker
+# boardgame-checker
 
 A Clojure library designed to ... well, that part is up to you.
 

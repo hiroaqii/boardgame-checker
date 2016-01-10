@@ -1,6 +1,6 @@
-(ns analog-game-checker.core-test
+(ns boardgame-checker.core-test
   (:require [clojure.test :refer :all]
-            [analog-game-checker.core :refer :all]))
+            [boardgame-checker.core :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."
