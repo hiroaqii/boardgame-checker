@@ -1,5 +1,6 @@
 # https://apps.twitter.com/
 # http://twitter4j.org/ja/configuration.html
+# mv twitter4j.properties_template twitter4j.properties
 debug=true
 oauth.consumerKey=xxxxx
 oauth.consumerSecret=xxxxx
