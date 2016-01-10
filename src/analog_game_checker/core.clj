@@ -4,14 +4,15 @@
             [taoensso.timbre :as log]
             [taoensso.timbre.appenders.core :as appenders]
             [clojure.java.io :as io]
-            [clojure.string :as str]))
+            [clojure.string :as str])
+  (:import [twitter4j TwitterFactory]))
 
 (log/merge-config!
  {:appenders
   {:spit (appenders/spit-appender {:fname "logs/info.log"})}})
 
 (def twippa_url "http://twipla.jp")
-
+(def twitter (. (TwitterFactory.) getInstance))
 (def check_wards
   ["ボードゲーム"
    "ボドゲ"
@@ -49,6 +50,9 @@
   (let [s (str (:title event) (:content event))]
     (some #(.contains s %) check_wards)))
 
+(defn tweet [msg]
+  (.updateStatus twitter msg))
+
 (defn crawl
   [event_id]
   (try
@@ -56,10 +60,12 @@
           url (:url event)
           title (:title event)]
       (if (analog_game_event? event)
-        (log/info "[ok]" url title)
+        (do
+          (tweet (str title " " url))
+          (log/info "[ok]" url title))
         (log/info "[skip]" url title)))
     (catch Exception e
-      (log/info "[error]" event_id))))
+      (log/info "[error]" e))))
 
 (defn latest_event_id []
   (let [ret (html/html-resource (io/reader twippa_url))]
