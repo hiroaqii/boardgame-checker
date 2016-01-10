@@ -78,7 +78,7 @@
       (Integer/parseInt (first (line-seq f))))
     (- (latest_event_id) 10)))
 
-(defn- finish
+(defn- save_last_check_id
   [event_id]
   (with-open [f (io/writer "logs/last_check_id.txt")]
     (.write f (str event_id))))
@@ -91,7 +91,7 @@
     (doseq [event_id (range start_id end_id)]
       (crawl event_id)
       (Thread/sleep 5000))
-    (finish end_id)
+    (save_last_check_id end_id)
     (log/info"finish")))
 
 (-main)
