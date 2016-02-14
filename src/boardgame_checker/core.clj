@@ -4,8 +4,8 @@
             [taoensso.timbre :as log]
             [taoensso.timbre.appenders.core :as appenders]
             [clojure.java.io :as io]
-            [clojure.string :as str])
-  (:import [twitter4j TwitterFactory])
+            [clojure.string :as str]
+            [twitter4clojure.core :as twitter])
   (:gen-class))
 
 (log/merge-config!
@@ -52,7 +52,7 @@
     (some #(.contains s %) check_wards)))
 
 (defn tweet [msg]
-  (.updateStatus twitter msg))
+  (twitter/update-status msg))
 
 (defn crawl
   [event_id]
